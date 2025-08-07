@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WellFlow - AI Wellness & Productivity Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#8b5cf6">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="greeting">Good morning, Alex!</h1>
+        <p class="subtitle">Let's make today productive and peaceful</p>
+    </div>
+
+    <div class="dashboard">
+        <!-- Tasks Today Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Tasks Today</h3>
+                <div class="target-icon"></div>
+            </div>
+            <div class="card-value" id="tasks-progress">2/4</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="tasks-progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Energy Level Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Energy Level</h3>
+            </div>
+            <div class="card-value energy-value" id="energy-level">
+                High
+                <div class="lightning-icon"></div>
+            </div>
+        </div>
+
+        <!-- Mood Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Mood</h3>
+            </div>
+            <div class="card-value mood-value" id="mood-level">
+                Great
+                <div class="heart-icon"></div>
+            </div>
+        </div>
+
+        <!-- Focus Time Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Focus Time</h3>
+            </div>
+            <div class="card-value focus-value" id="focus-time">
+                2.5h
+                <div class="brain-icon"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Sections Container -->
+    <div class="bottom-sections">
+        <!-- Today's Tasks Section -->
+        <div class="tasks-section">
+            <div class="tasks-header">
+                <h3 class="tasks-title">Today's Tasks</h3>
+                <button class="add-task-btn" id="add-task-btn">
+                    <span class="plus-icon">+</span>
+                    Add Task
+                </button>
+            </div>
+
+            <div class="task-list" id="task-list">
+                <div class="task-item completed" data-task-id="1">
+                    <div class="checkbox checked" onclick="toggleTask(1)">
+                        <div class="checkmark">✓</div>
+                    </div>
+                    <span class="task-text">Morning meditation</span>
+                    <span class="priority-badge high">high</span>
+                    <button class="remove-task-btn" onclick="removeTask(1)">×</button>
+                </div>
+
+                <div class="task-item" data-task-id="2">
+                    <div class="checkbox" onclick="toggleTask(2)">
+                        <div class="checkmark">✓</div>
+                    </div>
+                    <span class="task-text">Review project proposal</span>
+                    <span class="priority-badge high">high</span>
+                    <button class="remove-task-btn" onclick="removeTask(2)">×</button>
+                </div>
+
+                <div class="task-item completed" data-task-id="3">
+                    <div class="checkbox checked" onclick="toggleTask(3)">
+                        <div class="checkmark">✓</div>
+                    </div>
+                    <span class="task-text">30-minute walk</span>
+                    <span class="priority-badge medium">medium</span>
+                    <button class="remove-task-btn" onclick="removeTask(3)">×</button>
+                </div>
+
+                <div class="task-item" data-task-id="4">
+                    <div class="checkbox" onclick="toggleTask(4)">
+                        <div class="checkmark">✓</div>
+                    </div>
+                    <span class="task-text">Call mom</span>
+                    <span class="priority-badge low">low</span>
+                    <button class="remove-task-btn" onclick="removeTask(4)">×</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Habits Section -->
+        <div class="habits-section">
+            <div class="habits-header">
+                <h3 class="habits-title">Daily Habits</h3>
+                <button class="add-habit-btn" id="add-habit-btn">
+                    <span class="plus-icon">+</span>
+                    Add Habit
+                </button>
+            </div>
+
+            <div class="habits-list" id="habits-list">
+                <div class="habit-item" data-habit-id="water">
+                    <div class="habit-header">
+                        <span class="habit-name">Drink Water</span>
+                        <div class="habit-actions">
+                            <button class="habit-increment-btn" onclick="incrementHabit('water')">+</button>
+                            <button class="remove-habit-btn" onclick="removeHabit('water')">×</button>
+                        </div>
+                    </div>
+                    <div class="habit-progress-bar">
+                        <div class="habit-progress-fill" id="water-progress" style="width: 75%"></div>
+                    </div>
+                    <div class="habit-progress-details">
+                        <span class="habit-percentage" id="water-percentage">75% complete</span>
+                        <span class="habit-progress" id="water-count">6/8 glasses</span>
+                    </div>
+                </div>
+
+                <div class="habit-item" data-habit-id="exercise">
+                    <div class="habit-header">
+                        <span class="habit-name">Exercise</span>
+                        <div class="habit-actions">
+                            <button class="habit-increment-btn" onclick="incrementHabit('exercise')">+</button>
+                            <button class="remove-habit-btn" onclick="removeHabit('exercise')">×</button>
+                        </div>
+                    </div>
+                    <div class="habit-progress-bar">
+                        <div class="habit-progress-fill" id="exercise-progress" style="width: 100%"></div>
+                    </div>
+                    <div class="habit-progress-details">
+                        <span class="habit-percentage" id="exercise-percentage">100% complete</span>
+                        <span class="habit-progress" id="exercise-count">1/1 session</span>
+                    </div>
+                </div>
+
+                <div class="habit-item" data-habit-id="reading">
+                    <div class="habit-header">
+                        <span class="habit-name">Reading</span>
+                        <div class="habit-actions">
+                            <button class="habit-increment-btn" onclick="incrementHabit('reading')">+</button>
+                            <button class="remove-habit-btn" onclick="removeHabit('reading')">×</button>
+                        </div>
+                    </div>
+                    <div class="habit-progress-bar">
+                        <div class="habit-progress-fill" id="reading-progress" style="width: 83%"></div>
+                    </div>
+                    <div class="habit-progress-details">
+                        <span class="habit-percentage" id="reading-percentage">83% complete</span>
+                        <span class="habit-progress" id="reading-count">25/30 minutes</span>
+                    </div>
+                </div>
+
+                <div class="habit-item" data-habit-id="sleep">
+                    <div class="habit-header">
+                        <span class="habit-name">Sleep</span>
+                        <div class="habit-actions">
+                            <button class="habit-increment-btn" onclick="incrementHabit('sleep')">+</button>
+                            <button class="remove-habit-btn" onclick="removeHabit('sleep')">×</button>
+                        </div>
+                    </div>
+                    <div class="habit-progress-bar">
+                        <div class="habit-progress-fill" id="sleep-progress" style="width: 94%"></div>
+                    </div>
+                    <div class="habit-progress-details">
+                        <span class="habit-percentage" id="sleep-percentage">94% complete</span>
+                        <span class="habit-progress" id="sleep-count">7.5/8 hours</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Wellness Recommendations Section -->
+    <div class="ai-recommendations">
+        <div class="ai-header">
+            <div class="ai-brain-icon"></div>
+            <h3 class="ai-title">AI Wellness Recommendations</h3>
+        </div>
+
+        <div class="recommendations-grid" id="recommendations-grid">
+            <div class="recommendation-card">
+                <div class="recommendation-icon mindfulness-icon"></div>
+                <h4 class="recommendation-title">Mindfulness</h4>
+                <p class="recommendation-text">Take a 5-minute breathing break. Your stress levels seem elevated.
+                </p>
+            </div>
+
+            <div class="recommendation-card">
+                <div class="recommendation-icon movement-icon"></div>
+                <h4 class="recommendation-title">Movement</h4>
+                <p class="recommendation-text">Great job on your walk! Consider some light stretching next.</p>
+            </div>
+
+            <div class="recommendation-card">
+                <div class="recommendation-icon focus-icon"></div>
+                <h4 class="recommendation-title">Focus</h4>
+                <p class="recommendation-text">Your energy is high - perfect time to tackle that project proposal!
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- AI Assistant Chatbot -->
+    <div class="ai-assistant" id="ai-assistant">
+        <div class="ai-assistant-toggle" id="ai-assistant-toggle">
+            <div class="ai-assistant-icon">🤖</div>
+            <span class="ai-assistant-label">AI Assistant</span>
+            <div class="ai-assistant-status" id="ai-assistant-status"></div>
+        </div>
+        
+        <div class="ai-assistant-chat" id="ai-assistant-chat">
+            <div class="ai-assistant-header">
+                <div class="ai-assistant-title">
+                    <div class="ai-assistant-avatar">🤖</div>
+                    <div>
+                        <h4>WellFlow AI Assistant</h4>
+                        <span class="ai-assistant-subtitle">Your personal wellness companion</span>
+                    </div>
+                </div>
+                <button class="ai-assistant-close" id="ai-assistant-close">×</button>
+            </div>
+            
+            <div class="ai-assistant-messages" id="ai-assistant-messages">
+                <div class="ai-message ai-message-welcome">
+                    <div class="ai-message-avatar">🤖</div>
+                    <div class="ai-message-content">
+                        <p>Hello! I'm your AI wellness assistant. I'm here to help you stay on track with your tasks and habits. How can I assist you today?</p>
+                        <div class="ai-quick-actions">
+                            <button class="ai-quick-action" onclick="aiQuickAction('remind-tasks')">📋 Remind me of tasks</button>
+                            <button class="ai-quick-action" onclick="aiQuickAction('motivation')">💪 Give me motivation</button>
+                            <button class="ai-quick-action" onclick="aiQuickAction('suggest-habits')">🎯 Suggest habits</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ai-assistant-input">
+                <input type="text" id="ai-assistant-input" placeholder="Ask me anything about your wellness journey..." maxlength="500">
+                <button class="ai-assistant-send" id="ai-assistant-send">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Task</h2>
+            <form id="task-form">
+                <div class="form-group">
+                    <label for="task-title">Task Title:</label>
+                    <input type="text" id="task-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="task-priority">Priority:</label>
+                    <select id="task-priority" required>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Habit Modal -->
+    <div id="habit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Habit</h2>
+            <form id="habit-form">
+                <div class="form-group">
+                    <label for="habit-name">Habit Name:</label>
+                    <input type="text" id="habit-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="habit-target">Daily Target:</label>
+                    <input type="number" id="habit-target" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="habit-unit">Unit:</label>
+                    <input type="text" id="habit-unit" placeholder="e.g., glasses, minutes, hours" required>
+                </div>
+                <button type="submit" class="submit-btn">Add Habit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let tasks = [
+            { id: 1, text: "Morning meditation", priority: "high", completed: true },
+            { id: 2, text: "Review project proposal", priority: "high", completed: false },
+            { id: 3, text: "30-minute walk", priority: "medium", completed: true },
+            { id: 4, text: "Call mom", priority: "low", completed: false }
+        ];
+
+        let habits = {
+            water: { current: 6, target: 8, unit: "glasses", name: "Drink Water" },
+            exercise: { current: 1, target: 1, unit: "session", name: "Exercise" },
+            reading: { current: 25, target: 30, unit: "minutes", name: "Reading" },
+            sleep: { current: 7.5, target: 8, unit: "hours", name: "Sleep" }
+        };
+
+        let nextTaskId = 5;
+        let nextHabitId = 5;
+
+        // Mobile detection
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTasksProgress();
+            updateGreeting();
+            initializeModals();
+            updateRecommendations();
+            initializeMobileOptimizations();
+            loadAIAssistantPosition(); // Load saved position on page load
+        });
+
+        // Mobile-specific optimizations
+        function initializeMobileOptimizations() {
+            if (isMobile) {
+                // Prevent zoom on double tap
+                let lastTouchEnd = 0;
+                document.addEventListener('touchend', function (event) {
+                    const now = (new Date()).getTime();
+                    if (now - lastTouchEnd <= 300) {
+                        event.preventDefault();
+                    }
+                    lastTouchEnd = now;
+                }, false);
+
+                // Add touch feedback for buttons
+                const buttons = document.querySelectorAll('button, .checkbox, .habit-increment-btn, .remove-task-btn, .remove-habit-btn');
+                buttons.forEach(button => {
+                    button.addEventListener('touchstart', function() {
+                        this.style.transform = 'scale(0.95)';
+                    });
+                    button.addEventListener('touchend', function() {
+                        this.style.transform = 'scale(1)';
+                    });
+                });
+
+                // Optimize scrolling
+                document.body.style.webkitOverflowScrolling = 'touch';
+            }
+        }
+
+        // Update greeting based on time of day
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const greeting = document.querySelector('.greeting');
+            
+            if (hour < 12) {
+                greeting.textContent = 'Good morning, Alex!';
+            } else if (hour < 17) {
+                greeting.textContent = 'Good afternoon, Alex!';
+            } else {
+                greeting.textContent = 'Good evening, Alex!';
+            }
+        }
+
+        // Task management functions
+        function toggleTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                updateTaskUI(taskId);
+                updateTasksProgress();
+                updateRecommendations();
+                
+                // Add haptic feedback on mobile
+                if (isMobile && navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            }
+        }
+
+        function removeTask(taskId) {
+            if (confirm('Are you sure you want to remove this task?')) {
+                tasks = tasks.filter(t => t.id !== taskId);
+                const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
+                if (taskElement) {
+                    taskElement.remove();
+                    updateTasksProgress();
+                    updateRecommendations();
+                    
+                    // Add haptic feedback on mobile
+                    if (isMobile && navigator.vibrate) {
+                        navigator.vibrate(100);
+                    }
+                }
+            }
+        }
+
+        function updateTaskUI(taskId) {
+            const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
+            const task = tasks.find(t => t.id === taskId);
+            
+            if (taskElement && task) {
+                const checkbox = taskElement.querySelector('.checkbox');
+                const taskText = taskElement.querySelector('.task-text');
+                
+                if (task.completed) {
+                    taskElement.classList.add('completed');
+                    checkbox.classList.add('checked');
+                } else {
+                    taskElement.classList.remove('completed');
+                    checkbox.classList.remove('checked');
+                }
+            }
+        }
+
+        function updateTasksProgress() {
+            const completedTasks = tasks.filter(t => t.completed).length;
+            const totalTasks = tasks.length;
+            const progressPercentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+            
+            document.getElementById('tasks-progress').textContent = `${completedTasks}/${totalTasks}`;
+            document.getElementById('tasks-progress-fill').style.width = `${progressPercentage}%`;
+        }
+
+        // Habit management functions
+        function incrementHabit(habitId) {
+            const habit = habits[habitId];
+            if (habit && habit.current < habit.target) {
+                habit.current++;
+                updateHabitUI(habitId);
+                
+                // Add haptic feedback on mobile
+                if (isMobile && navigator.vibrate) {
+                    navigator.vibrate(25);
+                }
+            }
+        }
+
+        function removeHabit(habitId) {
+            if (confirm('Are you sure you want to remove this habit?')) {
+                delete habits[habitId];
+                const habitElement = document.querySelector(`[data-habit-id="${habitId}"]`);
+                if (habitElement) {
+                    habitElement.remove();
+                    
+                    // Add haptic feedback on mobile
+                    if (isMobile && navigator.vibrate) {
+                        navigator.vibrate(100);
+                    }
+                }
+            }
+        }
+
+        function updateHabitUI(habitId) {
+            const habit = habits[habitId];
+            if (!habit) return;
+
+            const percentage = (habit.current / habit.target) * 100;
+            const progressElement = document.getElementById(`${habitId}-progress`);
+            const percentageElement = document.getElementById(`${habitId}-percentage`);
+            const countElement = document.getElementById(`${habitId}-count`);
+
+            if (progressElement) progressElement.style.width = `${percentage}%`;
+            if (percentageElement) percentageElement.textContent = `${Math.round(percentage)}% complete`;
+            if (countElement) countElement.textContent = `${habit.current}/${habit.target} ${habit.unit}`;
+        }
+
+        // Modal functionality
+        function initializeModals() {
+            // Task modal
+            const taskModal = document.getElementById('task-modal');
+            const addTaskBtn = document.getElementById('add-task-btn');
+            const taskCloseBtn = taskModal.querySelector('.close');
+
+            addTaskBtn.onclick = function() {
+                taskModal.style.display = "block";
+                // Focus on first input for mobile
+                if (isMobile) {
+                    setTimeout(() => {
+                        document.getElementById('task-title').focus();
+                    }, 100);
+                }
+            }
+
+            taskCloseBtn.onclick = function() {
+                taskModal.style.display = "none";
+            }
+
+            // Habit modal
+            const habitModal = document.getElementById('habit-modal');
+            const addHabitBtn = document.getElementById('add-habit-btn');
+            const habitCloseBtn = habitModal.querySelector('.close');
+
+            addHabitBtn.onclick = function() {
+                habitModal.style.display = "block";
+                // Focus on first input for mobile
+                if (isMobile) {
+                    setTimeout(() => {
+                        document.getElementById('habit-name').focus();
+                    }, 100);
+                }
+            }
+
+            habitCloseBtn.onclick = function() {
+                habitModal.style.display = "none";
+            }
+
+            // Close modals when clicking outside
+            window.onclick = function(event) {
+                if (event.target == taskModal) {
+                    taskModal.style.display = "none";
+                }
+                if (event.target == habitModal) {
+                    habitModal.style.display = "none";
+                }
+            }
+
+            // Handle form submissions
+            document.getElementById('task-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addNewTask();
+            });
+
+            document.getElementById('habit-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addNewHabit();
+            });
+        }
+
+        function addNewTask() {
+            const title = document.getElementById('task-title').value;
+            const priority = document.getElementById('task-priority').value;
+            
+            if (title.trim()) {
+                const newTask = {
+                    id: nextTaskId++,
+                    text: title,
+                    priority: priority,
+                    completed: false
+                };
+                
+                tasks.push(newTask);
+                renderNewTask(newTask);
+                updateTasksProgress();
+                
+                // Reset form and close modal
+                document.getElementById('task-form').reset();
+                document.getElementById('task-modal').style.display = "none";
+                
+                // Add haptic feedback on mobile
+                if (isMobile && navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            }
+        }
+
+        function addNewHabit() {
+            const name = document.getElementById('habit-name').value;
+            const target = parseInt(document.getElementById('habit-target').value);
+            const unit = document.getElementById('habit-unit').value;
+            
+            if (name.trim() && target > 0 && unit.trim()) {
+                const habitId = `habit_${nextHabitId++}`;
+                const newHabit = {
+                    current: 0,
+                    target: target,
+                    unit: unit,
+                    name: name
+                };
+                
+                habits[habitId] = newHabit;
+                renderNewHabit(habitId, newHabit);
+                
+                // Reset form and close modal
+                document.getElementById('habit-form').reset();
+                document.getElementById('habit-modal').style.display = "none";
+                
+                // Add haptic feedback on mobile
+                if (isMobile && navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            }
+        }
+
+        function renderNewTask(task) {
+            const taskList = document.getElementById('task-list');
+            const taskElement = document.createElement('div');
+            taskElement.className = 'task-item';
+            taskElement.setAttribute('data-task-id', task.id);
+            
+            taskElement.innerHTML = `
+                <div class="checkbox" onclick="toggleTask(${task.id})">
+                    <div class="checkmark">✓</div>
+                </div>
+                <span class="task-text">${task.text}</span>
+                <span class="priority-badge ${task.priority}">${task.priority}</span>
+                <button class="remove-task-btn" onclick="removeTask(${task.id})">×</button>
+            `;
+            
+            taskList.appendChild(taskElement);
+        }
+
+        function renderNewHabit(habitId, habit) {
+            const habitsList = document.getElementById('habits-list');
+            const habitElement = document.createElement('div');
+            habitElement.className = 'habit-item';
+            habitElement.setAttribute('data-habit-id', habitId);
+            
+            habitElement.innerHTML = `
+                <div class="habit-header">
+                    <span class="habit-name">${habit.name}</span>
+                    <div class="habit-actions">
+                        <button class="habit-increment-btn" onclick="incrementHabit('${habitId}')">+</button>
+                        <button class="remove-habit-btn" onclick="removeHabit('${habitId}')">×</button>
+                    </div>
+                </div>
+                <div class="habit-progress-bar">
+                    <div class="habit-progress-fill" id="${habitId}-progress" style="width: 0%"></div>
+                </div>
+                <div class="habit-progress-details">
+                    <span class="habit-percentage" id="${habitId}-percentage">0% complete</span>
+                    <span class="habit-progress" id="${habitId}-count">0/${habit.target} ${habit.unit}</span>
+                </div>
+            `;
+            
+            habitsList.appendChild(habitElement);
+        }
+
+        // AI Recommendations
+        function updateRecommendations() {
+            const completedTasks = tasks.filter(t => t.completed).length;
+            const totalTasks = tasks.length;
+            const completionRate = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+            
+            const recommendationsGrid = document.getElementById('recommendations-grid');
+            
+            // Update recommendations based on progress
+            if (completionRate < 50) {
+                recommendationsGrid.innerHTML = `
+                    <div class="recommendation-card">
+                        <div class="recommendation-icon mindfulness-icon"></div>
+                        <h4 class="recommendation-title">Stay Focused</h4>
+                        <p class="recommendation-text">You're making progress! Try breaking down larger tasks into smaller steps.</p>
+                    </div>
+                    <div class="recommendation-card">
+                        <div class="recommendation-icon movement-icon"></div>
+                        <h4 class="recommendation-title">Take a Break</h4>
+                        <p class="recommendation-text">Consider a short walk to refresh your mind and boost productivity.</p>
+                    </div>
+                    <div class="recommendation-card">
+                        <div class="recommendation-icon focus-icon"></div>
+                        <h4 class="recommendation-title">Prioritize</h4>
+                        <p class="recommendation-text">Focus on high-priority tasks first to maximize your impact.</p>
+                    </div>
+                `;
+            } else if (completionRate >= 75) {
+                recommendationsGrid.innerHTML = `
+                    <div class="recommendation-card">
+                        <div class="recommendation-icon mindfulness-icon"></div>
+                        <h4 class="recommendation-title">Excellent Progress!</h4>
+                        <p class="recommendation-text">You're crushing it today! Keep up the great work.</p>
+                    </div>
+                    <div class="recommendation-card">
+                        <div class="recommendation-icon movement-icon"></div>
+                        <h4 class="recommendation-title">Celebrate</h4>
+                        <p class="recommendation-text">Take a moment to acknowledge your achievements today.</p>
+                    </div>
+                    <div class="recommendation-card">
+                        <div class="recommendation-icon focus-icon"></div>
+                        <h4 class="recommendation-title">Plan Tomorrow</h4>
+                        <p class="recommendation-text">Great momentum! Start planning tomorrow's priorities.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Energy and mood updates (simulated)
+        function updateEnergyLevel() {
+            const energyLevels = ['Low', 'Medium', 'High'];
+            const currentLevel = energyLevels[Math.floor(Math.random() * energyLevels.length)];
+            document.getElementById('energy-level').innerHTML = `${currentLevel}<div class="lightning-icon"></div>`;
+        }
+
+        function updateMoodLevel() {
+            const moodLevels = ['Good', 'Great', 'Excellent'];
+            const currentMood = moodLevels[Math.floor(Math.random() * moodLevels.length)];
+            document.getElementById('mood-level').innerHTML = `${currentMood}<div class="heart-icon"></div>`;
+        }
+
+        // Simulate real-time updates
+        setInterval(() => {
+            updateEnergyLevel();
+            updateMoodLevel();
+        }, 30000); // Update every 30 seconds
+
+        // AI Assistant Functionality
+        let aiAssistantOpen = false;
+        let aiConversationHistory = [];
+        let isDragging = false;
+        let dragOffset = { x: 0, y: 0 };
+        let dragStartTime = 0;
+        let dragDistance = 0;
+
+        // Initialize AI Assistant
+        function initializeAIAssistant() {
+            const aiToggle = document.getElementById('ai-assistant-toggle');
+            const aiChat = document.getElementById('ai-assistant-chat');
+            const aiClose = document.getElementById('ai-assistant-close');
+            const aiSend = document.getElementById('ai-assistant-send');
+            const aiInput = document.getElementById('ai-assistant-input');
+            const aiAssistant = document.getElementById('ai-assistant');
+
+            // Draggable functionality
+            aiToggle.addEventListener('mousedown', startDragging);
+            aiToggle.addEventListener('touchstart', startDragging, { passive: false });
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', stopDragging);
+            document.addEventListener('touchend', stopDragging);
+
+            // Toggle AI Assistant - separate from drag
+            aiToggle.addEventListener('click', handleToggleClick, { passive: false });
+            aiToggle.addEventListener('touchend', function(e) {
+                // Only handle touchend if it wasn't a drag
+                if (!isDragging && dragDistance < 10) {
+                    handleToggleClick(e);
+                }
+            }, { passive: false });
+
+            // Close AI Assistant
+            aiClose.addEventListener('click', () => {
+                aiAssistantOpen = false;
+                aiChat.classList.remove('active');
+            });
+
+            // Send message on Enter key
+            aiInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && aiInput.value.trim()) {
+                    sendAIMessage(aiInput.value.trim());
+                    aiInput.value = '';
+                }
+            });
+
+            // Send message on button click
+            aiSend.addEventListener('click', () => {
+                if (aiInput.value.trim()) {
+                    sendAIMessage(aiInput.value.trim());
+                    aiInput.value = '';
+                }
+            });
+
+            // Auto-reminder system
+            setInterval(checkTaskReminders, 60000); // Check every minute
+
+            // Handle viewport changes
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(handleViewportChange, 250);
+            });
+
+            // Handle orientation change on mobile
+            window.addEventListener('orientationchange', () => {
+                setTimeout(handleViewportChange, 500);
+            });
+        }
+
+        // Handle toggle click
+        function handleToggleClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // If we're dragging, don't toggle
+            if (isDragging) {
+                return;
+            }
+            
+            aiAssistantOpen = !aiAssistantOpen;
+            const aiChat = document.getElementById('ai-assistant-chat');
+            
+            if (aiAssistantOpen) {
+                aiChat.classList.add('active');
+                const aiInput = document.getElementById('ai-assistant-input');
+                setTimeout(() => {
+                    aiInput.focus();
+                }, 100);
+                
+                // Add haptic feedback on mobile
+                if (isMobile && navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            } else {
+                aiChat.classList.remove('active');
+            }
+        }
+
+        // Start dragging
+        function startDragging(e) {
+            e.preventDefault();
+            isDragging = true;
+            dragStartTime = Date.now();
+            dragDistance = 0;
+            
+            const aiAssistant = document.getElementById('ai-assistant');
+            const aiToggle = document.getElementById('ai-assistant-toggle');
+            
+            aiToggle.classList.add('dragging');
+            
+            const rect = aiAssistant.getBoundingClientRect();
+            const clientX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+            const clientY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
+            
+            dragOffset.x = clientX - rect.left;
+            dragOffset.y = clientY - rect.top;
+        }
+
+        // Drag function
+        function drag(e) {
+            if (!isDragging) return;
+            
+            e.preventDefault();
+            const aiAssistant = document.getElementById('ai-assistant');
+            const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+            const clientY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
+            
+            const newX = clientX - dragOffset.x;
+            const newY = clientY - dragOffset.y;
+            
+            // Calculate drag distance
+            const startX = dragOffset.x;
+            const startY = dragOffset.y;
+            dragDistance = Math.sqrt(Math.pow(clientX - startX, 2) + Math.pow(clientY - startY, 2));
+            
+            // Only allow dragging on desktop
+            if (window.innerWidth > 768) {
+                // Constrain to viewport bounds
+                const maxX = window.innerWidth - aiAssistant.offsetWidth;
+                const maxY = window.innerHeight - aiAssistant.offsetHeight;
+                
+                const constrainedX = Math.max(0, Math.min(newX, maxX));
+                const constrainedY = Math.max(0, Math.min(newY, maxY));
+                
+                aiAssistant.style.left = constrainedX + 'px';
+                aiAssistant.style.top = constrainedY + 'px';
+                aiAssistant.style.right = 'auto';
+                aiAssistant.style.bottom = 'auto';
+            }
+        }
+
+        // Stop dragging
+        function stopDragging(e) {
+            if (isDragging) {
+                isDragging = false;
+                const aiToggle = document.getElementById('ai-assistant-toggle');
+                aiToggle.classList.remove('dragging');
+                
+                // Save position to localStorage
+                const aiAssistant = document.getElementById('ai-assistant');
+                const position = {
+                    x: aiAssistant.style.left,
+                    y: aiAssistant.style.top,
+                    right: aiAssistant.style.right,
+                    bottom: aiAssistant.style.bottom,
+                    isMobile: window.innerWidth <= 768
+                };
+                localStorage.setItem('aiAssistantPosition', JSON.stringify(position));
+
+                // Prevent click event after drag
+                if (dragDistance > 10) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                // Reset drag variables
+                dragDistance = 0;
+                dragStartTime = 0;
+            }
+        }
+
+        // Load saved position
+        function loadAIAssistantPosition() {
+            const savedPosition = localStorage.getItem('aiAssistantPosition');
+            const aiAssistant = document.getElementById('ai-assistant');
+            
+            if (savedPosition) {
+                const position = JSON.parse(savedPosition);
+                
+                if (window.innerWidth > 768) {
+                    // Desktop mode
+                    if (position.x && position.y && position.x !== 'auto' && position.y !== 'auto') {
+                        aiAssistant.style.left = position.x;
+                        aiAssistant.style.top = position.y;
+                        aiAssistant.style.right = 'auto';
+                        aiAssistant.style.bottom = 'auto';
+                    } else {
+                        // No valid desktop position, use default
+                        aiAssistant.style.left = '20px';
+                        aiAssistant.style.top = '20px';
+                        aiAssistant.style.right = 'auto';
+                        aiAssistant.style.bottom = 'auto';
+                    }
+                } else {
+                    // Mobile mode
+                    if (position.isMobile) {
+                        // Apply saved mobile position
+                        aiAssistant.style.left = position.x || 'auto';
+                        aiAssistant.style.top = position.y || 'auto';
+                        aiAssistant.style.right = position.right || '20px';
+                        aiAssistant.style.bottom = position.bottom || '20px';
+                    } else {
+                        // Reset to default mobile position
+                        aiAssistant.style.left = 'auto';
+                        aiAssistant.style.top = 'auto';
+                        aiAssistant.style.right = '20px';
+                        aiAssistant.style.bottom = '20px';
+                    }
+                }
+            } else {
+                // No saved position, use defaults based on screen size
+                if (window.innerWidth > 768) {
+                    aiAssistant.style.left = '20px';
+                    aiAssistant.style.top = '20px';
+                    aiAssistant.style.right = 'auto';
+                    aiAssistant.style.bottom = 'auto';
+                } else {
+                    aiAssistant.style.left = 'auto';
+                    aiAssistant.style.top = 'auto';
+                    aiAssistant.style.right = '20px';
+                    aiAssistant.style.bottom = '20px';
+                }
+            }
+            
+            // Ensure the toggle is properly positioned and visible
+            ensureToggleVisibility();
+        }
+
+        // Handle viewport changes and reposition AI toggle
+        function handleViewportChange() {
+            const aiAssistant = document.getElementById('ai-assistant');
+            const currentWidth = window.innerWidth;
+            
+            // Check current screen size
+            const isNowMobile = currentWidth <= 768;
+            
+            // Get current position state
+            const currentLeft = aiAssistant.style.left;
+            const currentTop = aiAssistant.style.top;
+            const currentRight = aiAssistant.style.right;
+            const currentBottom = aiAssistant.style.bottom;
+            
+            // Determine if we're currently in desktop or mobile mode based on positioning
+            const isCurrentlyDesktop = (currentLeft !== 'auto' && currentTop !== 'auto') || 
+                                     (currentRight === 'auto' && currentBottom === 'auto');
+            
+            if (isCurrentlyDesktop && isNowMobile) {
+                // Switching from desktop to mobile - reset to mobile position
+                aiAssistant.style.left = 'auto';
+                aiAssistant.style.top = 'auto';
+                aiAssistant.style.right = '20px';
+                aiAssistant.style.bottom = '20px';
+                
+                // Save the mobile position
+                const position = {
+                    x: 'auto',
+                    y: 'auto',
+                    right: '20px',
+                    bottom: '20px',
+                    isMobile: true
+                };
+                localStorage.setItem('aiAssistantPosition', JSON.stringify(position));
+                
+            } else if (!isCurrentlyDesktop && !isNowMobile) {
+                // Switching from mobile to desktop - load saved desktop position or use default
+                loadAIAssistantPosition();
+            } else if (isNowMobile) {
+                // Already on mobile, ensure proper positioning
+                const savedPosition = localStorage.getItem('aiAssistantPosition');
+                if (savedPosition) {
+                    const position = JSON.parse(savedPosition);
+                    if (position.isMobile) {
+                        // Apply saved mobile position
+                        aiAssistant.style.left = position.x || 'auto';
+                        aiAssistant.style.top = position.y || 'auto';
+                        aiAssistant.style.right = position.right || '20px';
+                        aiAssistant.style.bottom = position.bottom || '20px';
+                    } else {
+                        // Reset to default mobile position
+                        aiAssistant.style.left = 'auto';
+                        aiAssistant.style.top = 'auto';
+                        aiAssistant.style.right = '20px';
+                        aiAssistant.style.bottom = '20px';
+                    }
+                } else {
+                    // No saved position, use default mobile position
+                    aiAssistant.style.left = 'auto';
+                    aiAssistant.style.top = 'auto';
+                    aiAssistant.style.right = '20px';
+                    aiAssistant.style.bottom = '20px';
+                }
+            }
+            
+            // Ensure the toggle is visible and properly positioned for the current screen size
+            ensureToggleVisibility();
+        }
+
+        // Ensure toggle is visible and properly positioned
+        function ensureToggleVisibility() {
+            const aiAssistant = document.getElementById('ai-assistant');
+            const rect = aiAssistant.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            // Check if toggle is outside viewport
+            let needsRepositioning = false;
+            
+            if (rect.right > viewportWidth) {
+                // Toggle is off the right edge
+                if (viewportWidth <= 768) {
+                    // Mobile: move to bottom-right
+                    aiAssistant.style.left = 'auto';
+                    aiAssistant.style.top = 'auto';
+                    aiAssistant.style.right = '20px';
+                    aiAssistant.style.bottom = '20px';
+                } else {
+                    // Desktop: move to visible area
+                    aiAssistant.style.right = '20px';
+                    aiAssistant.style.left = 'auto';
+                }
+                needsRepositioning = true;
+            }
+            
+            if (rect.bottom > viewportHeight) {
+                // Toggle is off the bottom edge
+                if (viewportWidth <= 768) {
+                    // Mobile: move to bottom-right
+                    aiAssistant.style.left = 'auto';
+                    aiAssistant.style.top = 'auto';
+                    aiAssistant.style.right = '20px';
+                    aiAssistant.style.bottom = '20px';
+                } else {
+                    // Desktop: move to visible area
+                    aiAssistant.style.bottom = '20px';
+                    aiAssistant.style.top = 'auto';
+                }
+                needsRepositioning = true;
+            }
+            
+            if (rect.left < 0) {
+                // Toggle is off the left edge
+                if (viewportWidth <= 768) {
+                    // Mobile: move to bottom-right
+                    aiAssistant.style.left = 'auto';
+                    aiAssistant.style.top = 'auto';
+                    aiAssistant.style.right = '20px';
+                    aiAssistant.style.bottom = '20px';
+                } else {
+                    // Desktop: move to visible area
+                    aiAssistant.style.left = '20px';
+                    aiAssistant.style.right = 'auto';
+                }
+                needsRepositioning = true;
+            }
+            
+            if (rect.top < 0) {
+                // Toggle is off the top edge
+                if (viewportWidth <= 768) {
+                    // Mobile: move to bottom-right
+                    aiAssistant.style.left = 'auto';
+                    aiAssistant.style.top = 'auto';
+                    aiAssistant.style.right = '20px';
+                    aiAssistant.style.bottom = '20px';
+                } else {
+                    // Desktop: move to visible area
+                    aiAssistant.style.top = '20px';
+                    aiAssistant.style.bottom = 'auto';
+                }
+                needsRepositioning = true;
+            }
+            
+            // Save the new position if repositioning occurred
+            if (needsRepositioning) {
+                const position = {
+                    x: aiAssistant.style.left,
+                    y: aiAssistant.style.top,
+                    right: aiAssistant.style.right,
+                    bottom: aiAssistant.style.bottom,
+                    isMobile: viewportWidth <= 768
+                };
+                localStorage.setItem('aiAssistantPosition', JSON.stringify(position));
+            }
+        }
+
+        // Send message to AI Assistant
+        function sendAIMessage(message) {
+            // Add user message to chat
+            addAIMessage('user', message);
+            
+            // Process message and generate AI response
+            const aiResponse = processAIMessage(message);
+            
+            // Simulate typing delay
+            setTimeout(() => {
+                addAIMessage('ai', aiResponse);
+            }, 1000);
+        }
+
+        // Add message to AI chat
+        function addAIMessage(sender, message) {
+            const messagesContainer = document.getElementById('ai-assistant-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message ${sender === 'user' ? 'ai-message-user' : 'ai-message-ai'}`;
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="ai-message-content" style="margin-left: auto; background: #8b5cf6; color: white;">
+                        <p>${message}</p>
+                    </div>
+                    <div class="ai-message-avatar" style="background: #8b5cf6;">👤</div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="ai-message-avatar">🤖</div>
+                    <div class="ai-message-content">
+                        <p>${message}</p>
+                    </div>
+                `;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Store in conversation history
+            aiConversationHistory.push({ sender, message, timestamp: new Date() });
+        }
+
+        // Process AI message and generate response
+        function processAIMessage(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Task-related queries
+            if (lowerMessage.includes('task') || lowerMessage.includes('todo') || lowerMessage.includes('remind')) {
+                return generateTaskResponse();
+            }
+            
+            // Habit-related queries
+            if (lowerMessage.includes('habit') || lowerMessage.includes('routine') || lowerMessage.includes('track')) {
+                return generateHabitResponse();
+            }
+            
+            // Motivation queries
+            if (lowerMessage.includes('motivation') || lowerMessage.includes('encourage') || lowerMessage.includes('inspire')) {
+                return generateMotivationResponse();
+            }
+            
+            // Progress queries
+            if (lowerMessage.includes('progress') || lowerMessage.includes('how am i doing') || lowerMessage.includes('status')) {
+                return generateProgressResponse();
+            }
+            
+            // General wellness queries
+            if (lowerMessage.includes('wellness') || lowerMessage.includes('health') || lowerMessage.includes('wellbeing')) {
+                return generateWellnessResponse();
+            }
+            
+            // Default response
+            return generateDefaultResponse();
+        }
+
+        // Generate task-related response
+        function generateTaskResponse() {
+            const incompleteTasks = tasks.filter(t => !t.completed);
+            const completedTasks = tasks.filter(t => t.completed);
+            
+            if (incompleteTasks.length === 0) {
+                return "🎉 Amazing! You've completed all your tasks for today. You're doing fantastic! Consider adding some new goals to keep the momentum going.";
+            }
+            
+            const taskList = incompleteTasks.map(t => `• ${t.text} (${t.priority} priority)`).join('\n');
+            const completionRate = Math.round((completedTasks.length / tasks.length) * 100);
+            
+            return `📋 Here are your remaining tasks for today:\n\n${taskList}\n\nYou've completed ${completionRate}% of your tasks. Keep up the great work! 💪\n\nWould you like me to help you prioritize these tasks or suggest how to tackle them?`;
+        }
+
+        // Generate habit-related response
+        function generateHabitResponse() {
+            const habitEntries = Object.entries(habits);
+            const completedHabits = habitEntries.filter(([id, habit]) => habit.current >= habit.target);
+            const incompleteHabits = habitEntries.filter(([id, habit]) => habit.current < habit.target);
+            
+            if (completedHabits.length === habitEntries.length) {
+                return "🌟 Outstanding! You've completed all your daily habits. You're building amazing routines!";
+            }
+            
+            const habitList = incompleteHabits.map(([id, habit]) => {
+                const percentage = Math.round((habit.current / habit.target) * 100);
+                return `• ${habit.name}: ${habit.current}/${habit.target} ${habit.unit} (${percentage}% complete)`;
+            }).join('\n');
+            
+            return `🎯 Here's your habit progress:\n\n${habitList}\n\nYou're making great progress! Would you like some tips on how to complete these habits?`;
+        }
+
+        // Generate motivation response
+        function generateMotivationResponse() {
+            const motivations = [
+                "💪 Remember, every small step you take today is building a better tomorrow. You've got this!",
+                "🌟 You're capable of amazing things. Each task you complete brings you closer to your goals.",
+                "🚀 Progress, not perfection. Every effort counts, and you're doing better than you think!",
+                "✨ You have the power to create positive change in your life. Keep pushing forward!",
+                "🎯 Success is built one task at a time. You're building something incredible!",
+                "💎 Your future self will thank you for the work you're doing today. Stay strong!",
+                "🌈 Every challenge you overcome makes you stronger. You're growing every day!",
+                "🔥 You're not just completing tasks - you're building habits that will last a lifetime!"
+            ];
+            
+            return motivations[Math.floor(Math.random() * motivations.length)];
+        }
+
+        // Generate progress response
+        function generateProgressResponse() {
+            const completedTasks = tasks.filter(t => t.completed).length;
+            const totalTasks = tasks.length;
+            const taskCompletionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+            
+            const habitEntries = Object.entries(habits);
+            const completedHabits = habitEntries.filter(([id, habit]) => habit.current >= habit.target).length;
+            const habitCompletionRate = habitEntries.length > 0 ? Math.round((completedHabits / habitEntries.length) * 100) : 0;
+            
+            let response = `📊 Here's your progress summary:\n\n`;
+            response += `✅ Tasks: ${completedTasks}/${totalTasks} completed (${taskCompletionRate}%)\n`;
+            response += `🎯 Habits: ${completedHabits}/${habitEntries.length} completed (${habitCompletionRate}%)\n\n`;
+            
+            if (taskCompletionRate >= 75 && habitCompletionRate >= 75) {
+                response += "🌟 You're absolutely crushing it today! You're on fire! 🔥";
+            } else if (taskCompletionRate >= 50 || habitCompletionRate >= 50) {
+                response += "👍 You're making solid progress! Keep up the great work!";
+            } else {
+                response += "💪 You're getting started! Every step counts. Let's pick up the pace!";
+            }
+            
+            return response;
+        }
+
+        // Generate wellness response
+        function generateWellnessResponse() {
+            const wellnessTips = [
+                "🧘‍♀️ Take a moment to breathe deeply. Your mental health is just as important as your physical health.",
+                "💧 Stay hydrated! Drinking water throughout the day boosts your energy and focus.",
+                "🌞 Get some natural light exposure. Even 10 minutes of sunlight can improve your mood.",
+                "🏃‍♂️ Movement is medicine. A short walk can clear your mind and boost creativity.",
+                "😴 Prioritize quality sleep. Your body and mind need rest to function at their best.",
+                "🍎 Fuel your body with nutritious foods. What you eat affects how you feel and perform.",
+                "🤝 Connect with others. Social connections are vital for emotional wellbeing.",
+                "🎨 Take breaks to do something you enjoy. Balance is key to sustainable wellness."
+            ];
+            
+            return wellnessTips[Math.floor(Math.random() * wellnessTips.length)];
+        }
+
+        // Generate default response
+        function generateDefaultResponse() {
+            const defaultResponses = [
+                "I'm here to help you with your wellness journey! You can ask me about your tasks, habits, progress, or just need some motivation. What would you like to know?",
+                "I'm your AI wellness companion! I can help you track your progress, remind you of tasks, suggest habits, or provide motivation. How can I assist you today?",
+                "Hello! I'm here to support your wellness goals. Feel free to ask me anything about your tasks, habits, or overall progress. What's on your mind?"
+            ];
+            
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        // Quick action handlers
+        function aiQuickAction(action) {
+            let response = '';
+            
+            switch(action) {
+                case 'remind-tasks':
+                    response = generateTaskResponse();
+                    break;
+                case 'motivation':
+                    response = generateMotivationResponse();
+                    break;
+                case 'suggest-habits':
+                    response = generateHabitSuggestions();
+                    break;
+            }
+            
+            if (response) {
+                setTimeout(() => {
+                    addAIMessage('ai', response);
+                }, 500);
+            }
+        }
+
+        // Generate habit suggestions
+        function generateHabitSuggestions() {
+            const suggestions = [
+                "🌅 Morning Routine: Start your day with 10 minutes of meditation or journaling",
+                "💧 Hydration: Set a goal to drink 8 glasses of water daily",
+                "📚 Learning: Dedicate 30 minutes to reading or learning something new",
+                "🏃‍♂️ Movement: Take a 20-minute walk or do some light stretching",
+                "🍎 Nutrition: Eat at least one healthy meal per day",
+                "😴 Sleep: Aim for 7-8 hours of quality sleep",
+                "🤝 Connection: Reach out to a friend or family member daily",
+                "🎯 Focus: Practice deep work for 25-minute sessions"
+            ];
+            
+            const randomSuggestions = suggestions.sort(() => 0.5 - Math.random()).slice(0, 3);
+            return `🎯 Here are some habit suggestions for you:\n\n${randomSuggestions.join('\n\n')}\n\nWould you like me to help you add any of these to your daily routine?`;
+        }
+
+        // Check for task reminders
+        function checkTaskReminders() {
+            const incompleteTasks = tasks.filter(t => !t.completed);
+            const now = new Date();
+            const hour = now.getHours();
+            
+            // Only send reminders during active hours (8 AM - 8 PM)
+            if (hour >= 8 && hour <= 20 && incompleteTasks.length > 0) {
+                // Check if user has been inactive for more than 30 minutes
+                const lastActivity = aiConversationHistory.length > 0 ? 
+                    aiConversationHistory[aiConversationHistory.length - 1].timestamp : 
+                    new Date(0);
+                
+                const timeSinceLastActivity = now - lastActivity;
+                const thirtyMinutes = 30 * 60 * 1000;
+                
+                if (timeSinceLastActivity > thirtyMinutes && Math.random() < 0.3) { // 30% chance
+                    const reminderMessage = `⏰ Friendly reminder: You have ${incompleteTasks.length} task${incompleteTasks.length > 1 ? 's' : ''} remaining for today. Would you like me to help you prioritize them?`;
+                    
+                    if (aiAssistantOpen) {
+                        setTimeout(() => {
+                            addAIMessage('ai', reminderMessage);
+                        }, 2000);
+                    }
+                }
+            }
+        }
+
+        // Initialize AI Assistant when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAIAssistant();
+        });
+    </script>
+</body>
+
+</html>
